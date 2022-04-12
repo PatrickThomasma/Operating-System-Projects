@@ -1,0 +1,11 @@
+Project 0 Create a set with hastable/linked list
+Patrick Thomasma's report
+
+For this project I created a set using a hashtable implementation, I used most of the code
+found in sventek's textbook regarding making a map ADT with a hashtable while modifying it
+to work with the .h that was given to us. When I ran the project with valgrind I got no 
+memory leaks and it looks almost exactly the same as the one produced for us in the projects 
+specs. Only diference is that the project specs shows more bytes allocated than mine but
+I feel like that is a minor difference not worthy of trying to modify my code in order to keep
+it exactly the same. I pass all tests for both of the test files and only help I had received
+was from the Class TA timmy tang.
