@@ -1,0 +1,5 @@
+mkdir testdirectory
+ls -l
+mv fileA testdirectory
+pwd
+mkdir testdirectory2
