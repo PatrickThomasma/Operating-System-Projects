@@ -1,0 +1,4 @@
+echo workload
+pwd
+ls -l
+date

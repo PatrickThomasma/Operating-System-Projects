@@ -1,5 +1,7 @@
 mkdir testdirectory
-ls -l
 mv fileA testdirectory
-pwd
 mkdir testdirectory2
+mv testdirectory/fileA testdirectory2
+rm -r testdirectory
+rm -r testdirectory2
+touch fileA
