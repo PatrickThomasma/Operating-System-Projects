@@ -1,7 +1,7 @@
 CFLAGS=-g -W -Wall -I/usr/local/include
 LDFLAGS=-L/usr/local/lib
 PROGS=uspsv1 uspsv2 uspsv3 uspsv4 cpubound iobound
-LIBRARIES=-lADTs
+LIBRARIES=-lADTs 
 
 all: $(PROGS)
 

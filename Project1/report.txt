@@ -1,0 +1,4 @@
+Project1: State of the solution
+Patrick Thomasma
+DuckID: 951623133
+Turning in for late submission, Everything in the program works like it should, No memory leaks in part 1,2,3 I tried to free memory leaks in part 4 but the logic I used for printing is pretty convuluted and whenever I tried to free up memory coming from strdup it would just cause a segfault, got rid of warnings from my last submission. Would recommend running with a large quantum time for best results.

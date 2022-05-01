@@ -1,2 +1,2 @@
 ./cpubound -m 1 -n process
-pwd
+./iobound -m 1 -n ioprocess

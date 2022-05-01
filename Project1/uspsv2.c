@@ -1,3 +1,12 @@
+/* Patrick Thomasma Duck ID: 951623133 CIS415 Project1
+ * This is my own work 
+ *
+ *
+*/
+
+
+
+
 #include <stdlib.h>
 #include <stdio.h>
 #include<fcntl.h>
@@ -8,97 +17,97 @@
 #include<sys/stat.h>
 #include<signal.h>
 #define BUF_SIZE 256
+#define UNUSED __attribute__((unused))
 
-volatile int received = 0;
+
+
+
+
+volatile int usr1 = 0;
 
 void NotEnoughArgumentsError() {
-	char msg[] = "Too many or too few arguments when executing (Should be three)\n";
-	int fd = open("/dev/tty", O_WRONLY);
-	write(fd, msg, sizeof(msg));
+	p1perror(0, "Too many or too few arguments when executing (Should be three)\n");
 	exit(EXIT_FAILURE);
 }	
 
 
 void NotValidFileError() {
-	char msg[] = "Not a valid file.\n";
-	int fd = open("/dev/tty", O_WRONLY);
-	write(fd, msg, sizeof(msg));
+	p1perror(0, "Not a valid file. \n");
 	exit(EXIT_FAILURE);
 }
 
 
-void handler(int sig) {
-	if (sig == SIGUSR1)	
-	{
-		printf("Signal recevied!\n");
-		received = 1;
-	}
+static void handler(UNUSED int sig) {
+	usr1++;
 }
 
 
 
 int main (int argc, char *argv[]) {
 	char *p;
-	int val = -1;
+	UNUSED int val = -1;
 	if ((p = getenv("VARIABLE_NAME")) != NULL)
 		val = atoi(p);
 	if (argc != 3) {
 		NotEnoughArgumentsError();
 	}
-	int bufsize, fd, wsize, term;
-	bufsize = -1;
-	int place = 0;
+	int bufsize = 1;
+	int fd = -1;
+	int wsize = 0;
+	int t = 0;
+	int term = 0;
+	int pid[100];
+	int progs = 0;
 	char buf[100];
-	char word[30];
-	char *programs[10][30];
 	fd = open(argv[2], O_RDONLY);
 	if (fd == -1)
 		NotValidFileError();
-	while (bufsize != 0) {
-		bufsize = p1getline(fd,buf,30);
+	signal(SIGUSR1, handler);
+	while ((bufsize = p1getline(fd,buf,100)) != 0) {
+		char word[100];
+		char *programs[100];
 		int len = p1strlen(buf);
 		buf[len - 1] = '\0';
 		wsize = 0;
+		progs++;
 		term = 0;
-		while (wsize != -1) {
-			wsize = p1getword(buf,wsize,word);
-			programs[place][term] = p1strdup(word);
+		while ((wsize = p1getword(buf,wsize,word)) != -1) {
+			programs[term] = p1strdup(word);
 			term++;
 		}
-		programs[place][term-1] = NULL;
-		place++;
-	}
-	int pid[place];
-	close(fd);
-
-	signal(SIGUSR1, &handler);
-
-	for (int i = 0; i < place; i++) {
-
-		pid[i] = fork();
-		if (pid[i] == 0) {
-			while (received == 0) {
+		programs[term] = NULL;
+		pid[t] = fork();
+		if (pid[t] == 0) {
+			while (!usr1) {
 				pause();
 			}
-			execvp(programs[i][0], programs[i]);
-			//execvp(programs,args[0]);
-		
-			}
+			close(fd);
+			execvp(programs[0], programs);
+		}
+		for (int j = 0; j < term; j++) {
+			free(programs[j]);
+		}
+		t++;
 	}
 
-      for(int i = 0; i < place; i++) {
+      sleep(2);
+
+      for(int i = 0; i < progs; i++) {
 	      kill(pid[i], SIGUSR1);
       }
-      for (int i = 0; i < place; i++) {
+      for (int i = 0; i < progs; i++) {
 	      kill(pid[i], SIGSTOP);
       }
-      for (int i = 0; i < place; i++) {
+      for (int i = 0; i < progs; i++) {
 	      kill(pid[i], SIGCONT);
       }
-
-      for (int i = 0; i < place; i++) {
+      close(fd);
+      for (int i = 0; i < progs; i++) {
 	      wait(NULL);
       }
+
+
+exit(0);
 
 }
 
